@@ -188,7 +188,7 @@ if __name__ == '__main__':
 
             # 지도에서 단지들 url
             onMapURL = f"https://m.land.naver.com/cluster/clusterList?cortarNo={cortarNo}&rletTpCd={searchType}&tradTpCd=A1%3AB1%3AB2&z={z}&lat={lat}&lon={lon}&btm=37.4756089&lft=127.099033&addon=COMPLEX&bAddon=COMPLEX&isOnlyIsale=false"
-            resMap = getRes(onMapURL, headers)
+            resMap = getRes(onMapURL, headers) 
             mapJsonObject = json.loads(resMap.text)
             mapArray = mapJsonObject["data"]["COMPLEX"]
 
