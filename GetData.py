@@ -201,6 +201,7 @@ if __name__ == '__main__':
                 else:
                     ipage = ipage + 1
 
+
                 # 각 지도에서 20개의 매물이 합쳐져 보이는거 체크.
                 for pageCnt in range(1, ipage):
                     # 매물 20개가 넘는 위치들 카운트 하기 위함.
