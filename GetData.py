@@ -120,18 +120,20 @@ def removeLowFloor(apt, aptList):
 #    구에서 행정동 Array 얻는 함수.
 #
 def getDongInfoArr(keyword):
-    
-    # 구에서 동 cortano 얻어오기.
-    guUrl = "https://m.land.naver.com/search/result/" + keyword    # 구단위
-    resGuArea = getRes(guUrl, headers)
-    strGuResult = getStrBetweenAnB(resGuArea.text, "filter: {", "},")
-    guCortarNo = getStrBetweenAnB(strGuResult, "cortarNo: '","',")
+    try:
+        # 구에서 동 cortano 얻어오기.
+        guUrl = "https://m.land.naver.com/search/result/" + keyword    # 구단위
+        resGuArea = getRes(guUrl, headers)
+        strGuResult = getStrBetweenAnB(resGuArea.text, "filter: {", "},")
+        guCortarNo = getStrBetweenAnB(strGuResult, "cortarNo: '","',")
 
-    # 해당 구의 행정동 리스트 뽑아오기.
-    dongUrl = f"https://m.land.naver.com/map/getRegionList?cortarNo={guCortarNo}&mycortarNo={guCortarNo}"
-    resDong = getRes(dongUrl, headers)
-    dongJsonObject = json.loads(resDong.text)
-    return dongJsonObject["result"]["list"]
+        # 해당 구의 행정동 리스트 뽑아오기.
+        dongUrl = f"https://m.land.naver.com/map/getRegionList?cortarNo={guCortarNo}&mycortarNo={guCortarNo}"
+        resDong = getRes(dongUrl, headers)
+        dongJsonObject = json.loads(resDong.text)
+        return dongJsonObject["result"]["list"]
+    except Exception as ex:
+        print(f"### {keyword}에서 행정동 리스트 얻어오기 실패 ###")
         
 #
 #    real estate struct
