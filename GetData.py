@@ -1,15 +1,16 @@
-import math
+
 from posixpath import split
 import requests
 from bs4 import BeautifulSoup
 import json
-import re
+
 import math
-import sys
+
 import time, datetime
 from dataclasses import dataclass
 from typing import NamedTuple
-import openpyxl as op 
+import openpyxl as op
+import traceback
 
 
 file_path = './keyword.json'
@@ -132,7 +133,8 @@ def getDongInfoArr(keyword):
         resDong = getRes(dongUrl, headers)
         dongJsonObject = json.loads(resDong.text)
         return dongJsonObject["result"]["list"]
-    except Exception as ex:
+    except:
+        traceback.print_exc()
         print(f"### {keyword}에서 행정동 리스트 얻어오기 실패 ###")
         
 #
@@ -152,24 +154,25 @@ if __name__ == '__main__':
 
     headers = {'User-Agent': "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; Trident/4.0; .NET4.0C; .NET4.0E; .NET CLR 2.0.50727; .NET CLR 1.1.4322; .NET CLR 3.0.4506.2152; .NET CLR 3.5.30729; Browzar)"}
     array = getJsonInfo()    
-    
+
     for Info in array:
         keyword1 = Info['지역명']    # 구로 나누어져 있는 시는 구 까지 입력(ex 전주시 덕진구, 청주시 흥덕구). 없는 경우는 시만 입력해도 됨(ex 안성시, 세종시).
         excelFilePath = Info['파일경로']
-
         dongArray = getDongInfoArr(keyword1)    # 구안에 행정동 keyword 얻어오기.
 
         for dong in dongArray:
             keyword2 = dong['CortarNm']    # 송파동, 잠실동 등.. 동 이름 keyword
-            print(keyword2)
 
             wb = op.load_workbook(excelFilePath, read_only=False, keep_vba=True) # worksheet 객체 생성
 
             try:
                 ws = wb[f"{keyword2}"]
             except KeyError as e:
-                print(e)
+                #print(e)
+                #print(f"{keyword2} has no apt")
                 continue
+
+            print(f"현재 크롤링중인 지역 : {keyword1} {keyword2}")
 
             url = "https://m.land.naver.com/search/result/" + keyword1 + keyword2
 
@@ -233,6 +236,7 @@ if __name__ == '__main__':
                                 resApt = getRes(aptUrl, headers)
 
                                 aptJsonObject = json.loads(resApt.text)
+                                
                                 aptArray = aptJsonObject['result']['list']
 
                                 # APT 단지 매물 검색
