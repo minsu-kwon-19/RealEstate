@@ -2,6 +2,7 @@
 pip install openpyxl
 pip install beautifulsoup4
 pip install requests
+pip install lxml
 
 1. 트래킹 하고 싶은 지역의 아파트 정보를 가지고 있는 엑셀 실행.
 
