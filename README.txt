@@ -1,3 +1,9 @@
+
+pip install openpyxl
+pip install beautifulsoup4
+pip install beautifulsoup
+pip install requests
+
 1. 트래킹 하고 싶은 지역의 아파트 정보를 가지고 있는 엑셀 실행.
 
 2. A ~ AL까지 복사 한 후 엑셀 시세표 엑셀 파일에서 "정보입력" sheet 에 복사 붙여넣기
